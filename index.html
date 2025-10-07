@@ -4,8 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Falaris's Stash</title>
-    <link rel="icon" href="favicon.ico" type="image/png">
     <style>
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrFJA.ttf") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9V1s.ttf") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6V1s.ttf") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7V1s.ttf") format('truetype');
+        }
+
+        :root {
+            --p1: #5eead4;
+            --p2: #2dd4bf;
+            --p3: #14b8a6;
+            --p4: #0d9488;
+            --p5: #0f766e;
+            --bg-dark: #1a1a1a;
+            --bg-card: #242424;
+            --text-light: #EAEAEA;
+            --text-dark: #a3a3a3;
+            --border-color: #333333;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +57,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
             color: #fff;
             min-height: 100vh;
@@ -282,6 +326,107 @@
             color: #4a9eff;
         }
 
+        .report-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 100, 100, 0.1);
+            border: 2px solid rgba(255, 100, 100, 0.3);
+            border-radius: 12px;
+            display: none;
+        }
+
+        .report-section.show {
+            display: block;
+            animation: popIn 0.4s ease-out;
+        }
+
+        .report-title {
+            color: #ff6464;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .report-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .report-input:focus {
+            border-color: #ff6464;
+            box-shadow: 0 0 15px rgba(255, 100, 100, 0.3);
+        }
+
+        .report-textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s;
+        }
+
+        .report-textarea:focus {
+            border-color: #ff6464;
+            box-shadow: 0 0 15px rgba(255, 100, 100, 0.3);
+        }
+
+        .report-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff4444, #ff6464);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .report-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 100, 100, 0.4);
+        }
+
+        .report-link-btn {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid rgba(255, 100, 100, 0.4);
+            border-radius: 8px;
+            color: #ff6464;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .report-link-btn:hover {
+            background: rgba(255, 100, 100, 0.3);
+            border-color: #ff6464;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -318,6 +463,15 @@
             <div class="result-box" id="resultBox">
                 <div class="result-label">Your Link:</div>
                 <a class="result-link" id="resultLink" href="#" target="_blank"></a>
+                <button class="report-link-btn" onclick="toggleReportForm()">Report Broken/Blocked Link</button>
+            </div>
+
+            <div class="report-section" id="reportSection">
+                <div class="report-title">Report Link Issue</div>
+                <input type="text" class="report-input" id="reportLink" placeholder="Link URL" readonly>
+                <input type="text" class="report-input" id="reportCategory" placeholder="Category" readonly>
+                <textarea class="report-textarea" id="reportReason" placeholder="Describe the issue (e.g., blocked, broken, not loading...)"></textarea>
+                <button class="report-btn" onclick="sendReport()">Send Report via Email</button>
             </div>
         </div>
     </div>
@@ -347,9 +501,11 @@
                 "https://xd8rs5ix.tb.googledrive.icu.cdn.cloudflare.net/"
             ],
             pulsar: [
-                "https://example.com/pulsar1",
-                "https://example.com/pulsar2",
-                "https://example.com/pulsar3"
+                "https://pulsar-site.netlify.app/",
+                "https://whatintheofficial.netlify.app/",
+                "https://officialgreatsite.netlify.app/",
+                "https://pulsariscool.netlify.app/",
+                "https://greatsitetouse.netlify.app/"
             ],
             sample: [
                 "https://example.com/sample1",
@@ -399,11 +555,49 @@
 
         // Toggle state
         let useBlankMode = false;
+        let currentLink = '';
+        let currentCategory = '';
 
         function toggleBlankMode() {
             useBlankMode = !useBlankMode;
             const toggle = document.getElementById('toggleSwitch');
             toggle.classList.toggle('active');
+        }
+
+        function toggleReportForm() {
+            const reportSection = document.getElementById('reportSection');
+            reportSection.classList.toggle('show');
+            
+            // Pre-fill the form
+            document.getElementById('reportLink').value = currentLink;
+            document.getElementById('reportCategory').value = currentCategory;
+        }
+
+        function sendReport() {
+            const link = document.getElementById('reportLink').value;
+            const category = document.getElementById('reportCategory').value;
+            const reason = document.getElementById('reportReason').value;
+            
+            if (!reason.trim()) {
+                alert('Please describe the issue before sending the report.');
+                return;
+            }
+            
+            const subject = encodeURIComponent('Falaris\'s Stash - Link Report');
+            const body = encodeURIComponent(
+                `Link Issue Report\n\n` +
+                `Category: ${category}\n` +
+                `Link: ${link}\n\n` +
+                `Issue Description:\n${reason}\n\n` +
+                `---\n` +
+                `Reported from Falaris's Stash`
+            );
+            
+            window.location.href = `mailto:srvusd-head-admin-user@students.srvusd.net?subject=${subject}&body=${body}`;
+            
+            // Clear form
+            document.getElementById('reportReason').value = '';
+            document.getElementById('reportSection').classList.remove('show');
         }
 
         function dispenseLink() {
@@ -417,6 +611,8 @@
 
             // Get random link from category
             const randomLink = links[Math.floor(Math.random() * links.length)];
+            currentLink = randomLink;
+            currentCategory = category;
             
             // Display result
             const resultBox = document.getElementById('resultBox');
