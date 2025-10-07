@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falaris's Stash</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 50px 40px;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #4a9eff, #1e5a9e, #2d7dd2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(30, 90, 158, 0.5);
+        }
+
+        .random-message {
+            color: #a8c5e2;
+            font-style: italic;
+            font-size: 1em;
+            margin-bottom: 10px;
+            min-height: 25px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-label {
+            font-size: 1em;
+            color: #a0a0d0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(45deg, #7873f5, #4fd1c5);
+            border-color: transparent;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .dispenser-section {
+            margin-bottom: 30px;
+        }
+
+        .dropdown {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, rgba(30, 90, 158, 0.2), rgba(74, 158, 255, 0.1));
+            border: 2px solid rgba(74, 158, 255, 0.3);
+            border-radius: 15px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            outline: none;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(30, 90, 158, 0.2);
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a9eff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 50px;
+        }
+
+        .dropdown:hover {
+            border-color: #4a9eff;
+            background: linear-gradient(135deg, rgba(30, 90, 158, 0.3), rgba(74, 158, 255, 0.15));
+            box-shadow: 0 8px 20px rgba(30, 90, 158, 0.3);
+        }
+
+        .dropdown:focus {
+            border-color: #2d7dd2;
+            box-shadow: 0 0 25px rgba(45, 125, 210, 0.4);
+        }
+
+        .dropdown option {
+            background: #0a0a1a;
+            color: #fff;
+            padding: 15px;
+            font-size: 1em;
+        }
+        
+        .dropdown option:hover {
+            background: #1e5a9e;
+        }
+        
+        .dropdown option:checked {
+            background: linear-gradient(135deg, #1e5a9e, #2d7dd2);
+            color: #fff;
+        }
+
+        .dispense-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #1e5a9e, #4a9eff);
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 30px rgba(30, 90, 158, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dispense-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .dispense-btn:hover::before {
+            left: 100%;
+        }
+
+        .dispense-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(30, 90, 158, 0.7);
+        }
+
+        .dispense-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(30, 90, 158, 0.15);
+            border: 2px solid #2d7dd2;
+            border-radius: 12px;
+            min-height: 80px;
+            display: none;
+            animation: popIn 0.4s ease-out;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .result-label {
+            color: #4a9eff;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .result-link {
+            color: #fff;
+            font-size: 1.1em;
+            word-break: break-all;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .result-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #4a9eff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="stars"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Falaris's Stash</h1>
+            <div class="random-message" id="randomMessage"></div>
+        </header>
+
+        <div class="toggle-container">
+            <span class="toggle-label">Open in about:blank</span>
+            <div class="toggle-switch" id="toggleSwitch" onclick="toggleBlankMode()">
+                <div class="toggle-slider"></div>
+            </div>
+        </div>
+
+        <div class="dispenser-section">
+            <select class="dropdown" id="categorySelect">
+                <option value="petezah">Petezah</option>
+                <option value="science">Definitely Science</option>
+                <option value="flarelink">Flarelink</option>
+                <option value="pulsar">Pulsar</option>
+                <option value="sample">Sample Category</option>
+            </select>
+
+            <button class="dispense-btn" onclick="dispenseLink()">Dispense Link</button>
+
+            <div class="result-box" id="resultBox">
+                <div class="result-label">Your Link:</div>
+                <a class="result-link" id="resultLink" href="#" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // EDIT YOUR LINKS HERE - Easy to modify!
+        // ========================================
+        const linkCategories = {
+            petezah: [
+                "https://gatekeepfromkrithiknimmagadasincehesmyopp.atamanco.eu",
+                "https://gatekeepthisfr.atamanco.eu",
+                "https://iknowyouhaveacrushonme.atamanco.eu",
+                "https://krithiknimmagadagoestodoughertyvalleyhighschoollivesinsanramon.atamanco.eu",
+                "https://shreyesmedidiisthegoatfrfr.atamanco.eu"
+            ],
+            science: [
+                "https://platform.geometrylesson.com/",
+                "https://Ed.supermathschool.com",
+                "https://tl.friv-2026.com/"
+            ],
+            flarelink: [
+                "https://jayesh.googledrive.icu.cdn.cloudflare.net/",
+                "https://advancedcalculus.ghostnation.org/",
+                "https://1pklvm.prodigy.it.com.cdn.cloudflare.net/",
+                "https://vq5skfeq.googledrive.icu.cdn.cloudflare.net/",
+                "https://xd8rs5ix.tb.googledrive.icu.cdn.cloudflare.net/"
+            ],
+            pulsar: [
+                "https://example.com/pulsar1",
+                "https://example.com/pulsar2",
+                "https://example.com/pulsar3"
+            ],
+            sample: [
+                "https://example.com/sample1",
+                "https://example.com/sample2",
+                "https://example.com/sample3"
+            ]
+        };
+
+        // Random messages that appear below the title
+        const randomMessages = [
+            "krithik my #1 opp",
+            "why'd Google docs misspell my name :sob:",
+            "ajh's vault skibidi?!",
+            "smoresxo ripoff",
+            "quick, close the tab! There's a teacher coming!",
+            "gatekeep this fr",
+            "don't share with krithik",
+            "skibidi skibidi"
+        ];
+
+        // ========================================
+        // Star generation
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Display random message
+        function displayRandomMessage() {
+            const messageElement = document.getElementById('randomMessage');
+            const randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+            messageElement.textContent = randomMsg;
+        }
+
+        createStars();
+        displayRandomMessage();
+
+        // Toggle state
+        let useBlankMode = false;
+
+        function toggleBlankMode() {
+            useBlankMode = !useBlankMode;
+            const toggle = document.getElementById('toggleSwitch');
+            toggle.classList.toggle('active');
+        }
+
+        function dispenseLink() {
+            const category = document.getElementById('categorySelect').value;
+            const links = linkCategories[category];
+            
+            if (!links || links.length === 0) {
+                alert('No links available in this category!');
+                return;
+            }
+
+            // Get random link from category
+            const randomLink = links[Math.floor(Math.random() * links.length)];
+            
+            // Display result
+            const resultBox = document.getElementById('resultBox');
+            const resultLink = document.getElementById('resultLink');
+            
+            resultLink.href = randomLink;
+            resultLink.textContent = randomLink;
+            resultBox.classList.add('show');
+
+            // Open link
+            if (useBlankMode) {
+                const win = window.open('about:blank');
+                const iframe = win.document.createElement('iframe');
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                iframe.style.position = "fixed";
+                iframe.style.top = "0";
+                iframe.style.left = "0";
+                iframe.src = randomLink;
+                win.document.body.style.margin = "0";
+                win.document.body.appendChild(iframe);
+            } else {
+                window.open(randomLink, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
