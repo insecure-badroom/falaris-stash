@@ -1,486 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Falaris's Stash</title>
-    <style>
-        @font-face {
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrFJA.ttf") format('truetype');
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Falaris's Stash</title>
+	<!-- initial favicon (will be replaced/restored by script) -->
+	<link id="favicon" rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<style>
+		@font-face {
+			font-family: 'Poppins';
+			font-style: normal;
+			font-weight: 400;
+			font-display: swap;
+			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrFJA.ttf") format('truetype');
+		}
 
-        @font-face {
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 500;
-            font-display: swap;
-            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9V1s.ttf") format('truetype');
-        }
+		@font-face {
+			font-family: 'Poppins';
+			font-style: normal;
+			font-weight: 500;
+			font-display: swap;
+			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9V1s.ttf") format('truetype');
+		}
 
-        @font-face {
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 600;
-            font-display: swap;
-            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6V1s.ttf") format('truetype');
-        }
+		@font-face {
+			font-family: 'Poppins';
+			font-style: normal;
+			font-weight: 600;
+			font-display: swap;
+			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6V1s.ttf") format('truetype');
+		}
 
-        @font-face {
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 700;
-            font-display: swap;
-            src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7V1s.ttf") format('truetype');
-        }
+		@font-face {
+			font-family: 'Poppins';
+			font-style: normal;
+			font-weight: 700;
+			font-display: swap;
+			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7V1s.ttf") format('truetype');
+		}
 
-        :root {
-            --p1: #5eead4;
-            --p2: #2dd4bf;
-            --p3: #14b8a6;
-            --p4: #0d9488;
-            --p5: #0f766e;
-            --bg-dark: #1a1a1a;
-            --bg-card: #242424;
-            --text-light: #EAEAEA;
-            --text-dark: #a3a3a3;
-            --border-color: #333333;
-        }
+		:root {
+			--p1: #59cebf;
+			--p2: #42b4ab;
+			--p3: #3ac3ab;
+			--p4: #20b896;
+			--p5: #12ae9a;
+			--bg-dark: #0D0D0D;
+			--bg-card: #161616;
+			--text-light: #EAEAEA;
+			--text-dark: #CCCCCC;
+			--border-color: #2a2a2a;
+		}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+		body {
+			font-family: 'Poppins', sans-serif;
+			background-color: var(--bg-dark);
+			color: var(--text-light);
+			margin: 0;
+			padding: 0;
+			min-height: 100vh;
+			overflow-x: hidden;
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(58, 195, 171, 0.2), transparent);
+		}
 
-        #stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
+		#stars {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 0;
+		}
 
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
+		.star {
+			position: absolute;
+			width: 2px;
+			height: 2px;
+			background: var(--p1);
+			border-radius: 50%;
+			animation: twinkle 3s infinite;
+		}
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
-        }
+		@keyframes twinkle {
 
-        .container {
-            max-width: 600px;
-            width: 90%;
-            padding: 50px 40px;
-            position: relative;
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.8s ease-out;
-        }
+			0%,
+			100% {
+				opacity: 0.3;
+				transform: scale(1);
+			}
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+			50% {
+				opacity: 1;
+				transform: scale(1.5);
+			}
+		}
 
-        h1 {
-            font-size: 3em;
-            background: linear-gradient(45deg, #4a9eff, #1e5a9e, #2d7dd2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 15px;
-            text-shadow: 0 0 30px rgba(30, 90, 158, 0.5);
-        }
+		.container {
+			max-width: 600px;
+			width: 90%;
+			padding: 50px 40px;
+			position: relative;
+			z-index: 1;
+			background: var(--bg-card);
+			border: 1px solid var(--border-color);
+			border-radius: 25px;
+			backdrop-filter: blur(20px);
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+			animation: fadeIn 0.8s ease-out;
+		}
 
-        .random-message {
-            color: #a8c5e2;
-            font-style: italic;
-            font-size: 1em;
-            margin-bottom: 10px;
-            min-height: 25px;
-            animation: slideIn 0.5s ease-out;
-        }
+		header {
+			text-align: center;
+			margin-bottom: 40px;
+		}
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+		h1 {
+			font-size: 3em;
+			background: linear-gradient(45deg, var(--p1), var(--p3), var(--p4));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			margin-bottom: 15px;
+			font-weight: 700;
+		}
 
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+		.random-message {
+			color: var(--text-dark);
+			font-style: italic;
+			font-size: 1em;
+			margin-bottom: 10px;
+			min-height: 25px;
+			animation: slideIn 0.5s ease-out;
+		}
 
-        .toggle-label {
-            font-size: 1em;
-            color: #a0a0d0;
-        }
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateX(-20px);
+			}
 
-        .toggle-switch {
-            position: relative;
-            width: 60px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
 
-        .toggle-switch.active {
-            background: linear-gradient(45deg, #7873f5, #4fd1c5);
-            border-color: transparent;
-        }
+		.toggle-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 15px;
+			margin-bottom: 30px;
+			padding: 15px;
+			background: rgba(255, 255, 255, 0.05);
+			border-radius: 15px;
+			border: 1px solid var(--border-color);
+		}
 
-        .toggle-slider {
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 20px;
-            height: 20px;
-            background: #fff;
-            border-radius: 50%;
-            transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
+		.toggle-label {
+			font-size: 1em;
+			color: var(--text-dark);
+			font-weight: 500;
+		}
 
-        .toggle-switch.active .toggle-slider {
-            transform: translateX(30px);
-        }
+		.toggle-switch {
+			position: relative;
+			width: 60px;
+			height: 30px;
+			background: rgba(255, 255, 255, 0.1);
+			border-radius: 30px;
+			cursor: pointer;
+			transition: all 0.3s;
+			border: 2px solid var(--border-color);
+		}
 
-        .dispenser-section {
-            margin-bottom: 30px;
-        }
+		.toggle-switch.active {
+			background: linear-gradient(45deg, var(--p3), var(--p1));
+			border-color: transparent;
+		}
 
-        .dropdown {
-            width: 100%;
-            padding: 18px 20px;
-            font-size: 1.2em;
-            background: linear-gradient(135deg, rgba(30, 90, 158, 0.2), rgba(74, 158, 255, 0.1));
-            border: 2px solid rgba(74, 158, 255, 0.3);
-            border-radius: 15px;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-            outline: none;
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(30, 90, 158, 0.2);
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a9eff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 20px;
-            padding-right: 50px;
-        }
+		.toggle-slider {
+			position: absolute;
+			top: 3px;
+			left: 3px;
+			width: 20px;
+			height: 20px;
+			background: #fff;
+			border-radius: 50%;
+			transition: all 0.3s;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+		}
 
-        .dropdown:hover {
-            border-color: #4a9eff;
-            background: linear-gradient(135deg, rgba(30, 90, 158, 0.3), rgba(74, 158, 255, 0.15));
-            box-shadow: 0 8px 20px rgba(30, 90, 158, 0.3);
-        }
+		.toggle-switch.active .toggle-slider {
+			transform: translateX(30px);
+		}
 
-        .dropdown:focus {
-            border-color: #2d7dd2;
-            box-shadow: 0 0 25px rgba(45, 125, 210, 0.4);
-        }
+		.cloak-container {
+			text-align: center;
+			margin-bottom: 30px;
+			padding: 20px;
+			background: rgba(89, 206, 191, 0.1);
+			border-radius: 15px;
+			border: 1px solid var(--p3);
+		}
 
-        .dropdown option {
-            background: #0a0a1a;
-            color: #fff;
-            padding: 15px;
-            font-size: 1em;
-        }
-        
-        .dropdown option:hover {
-            background: #1e5a9e;
-        }
-        
-        .dropdown option:checked {
-            background: linear-gradient(135deg, #1e5a9e, #2d7dd2);
-            color: #fff;
-        }
+		.cloak-btn {
+			width: 100%;
+			padding: 15px 20px;
+			background: linear-gradient(45deg, var(--p3), var(--p1));
+			border: none;
+			border-radius: 12px;
+			color: var(--bg-dark);
+			font-size: 1.1em;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s;
+			font-family: 'Poppins', sans-serif;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+		}
 
-        .dispense-btn {
-            width: 100%;
-            padding: 20px;
-            font-size: 1.3em;
-            font-weight: bold;
-            background: linear-gradient(45deg, #1e5a9e, #4a9eff);
-            border: none;
-            border-radius: 15px;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 10px 30px rgba(30, 90, 158, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
+		.cloak-btn:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 20px rgba(89, 206, 191, 0.4);
+		}
 
-        .dispense-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
+		.cloak-btn i {
+			font-size: 1.2em;
+		}
 
-        .dispense-btn:hover::before {
-            left: 100%;
-        }
+		.cloak-hint {
+			margin-top: 10px;
+			font-size: 0.85em;
+			color: var(--text-dark);
+			font-style: italic;
+		}
 
-        .dispense-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(30, 90, 158, 0.7);
-        }
+		.dispenser-section {
+			margin-bottom: 30px;
+		}
 
-        .dispense-btn:active {
-            transform: translateY(-1px);
-        }
+		.dropdown {
+			width: 100%;
+			padding: 18px 20px;
+			font-size: 1.2em;
+			background: var(--bg-dark);
+			border: 2px solid var(--border-color);
+			border-radius: 15px;
+			color: var(--text-light);
+			cursor: pointer;
+			transition: all 0.3s;
+			margin-bottom: 20px;
+			outline: none;
+			font-weight: 500;
+			font-family: 'Poppins', sans-serif;
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2359cebf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+			background-repeat: no-repeat;
+			background-position: right 15px center;
+			background-size: 20px;
+			padding-right: 50px;
+		}
 
-        .result-box {
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(30, 90, 158, 0.15);
-            border: 2px solid #2d7dd2;
-            border-radius: 12px;
-            min-height: 80px;
-            display: none;
-            animation: popIn 0.4s ease-out;
-        }
+		.dropdown:hover {
+			border-color: var(--p3);
+			box-shadow: 0 0 0 3px rgba(58, 195, 171, 0.3);
+		}
 
-        .result-box.show {
-            display: block;
-        }
+		.dropdown:focus {
+			border-color: var(--p1);
+			box-shadow: 0 0 0 3px rgba(89, 206, 191, 0.3);
+		}
 
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
-        }
+		.dropdown option {
+			background: var(--bg-dark);
+			color: var(--text-light);
+			padding: 15px;
+			font-size: 1em;
+		}
 
-        .result-label {
-            color: #4a9eff;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
+		.btn,
+		.dispense-btn {
+			width: 100%;
+			padding: 20px;
+			font-size: 1.3em;
+			font-weight: 600;
+			background: var(--text-light);
+			color: var(--bg-dark);
+			border: none;
+			border-radius: 15px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			position: relative;
+			overflow: hidden;
+			font-family: 'Poppins', sans-serif;
+		}
 
-        .result-link {
-            color: #fff;
-            font-size: 1.1em;
-            word-break: break-all;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
+		.btn:hover,
+		.dispense-btn:hover {
+			background: var(--p1);
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(89, 206, 191, 0.2);
+		}
 
-        .result-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #4a9eff;
-        }
+		.btn:active,
+		.dispense-btn:active {
+			transform: translateY(-1px);
+		}
 
-        .report-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 100, 100, 0.1);
-            border: 2px solid rgba(255, 100, 100, 0.3);
-            border-radius: 12px;
-            display: none;
-        }
+		.result-box {
+			margin-top: 25px;
+			padding: 20px;
+			background: var(--bg-dark);
+			border: 2px solid var(--p3);
+			border-radius: 12px;
+			min-height: 80px;
+			display: none;
+			animation: popIn 0.4s ease-out;
+		}
 
-        .report-section.show {
-            display: block;
-            animation: popIn 0.4s ease-out;
-        }
+		.result-box.show {
+			display: block;
+		}
 
-        .report-title {
-            color: #ff6464;
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+		@keyframes popIn {
+			0% {
+				opacity: 0;
+				transform: scale(0.8);
+			}
 
-        .report-input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1em;
-            outline: none;
-            transition: all 0.3s;
-        }
+			100% {
+				opacity: 1;
+				transform: scale(1);
+			}
+		}
 
-        .report-input:focus {
-            border-color: #ff6464;
-            box-shadow: 0 0 15px rgba(255, 100, 100, 0.3);
-        }
+		.result-label {
+			color: var(--p1);
+			font-size: 0.9em;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			margin-bottom: 10px;
+			font-weight: 600;
+		}
 
-        .report-textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1em;
-            outline: none;
-            resize: vertical;
-            min-height: 80px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s;
-        }
+		.result-link {
+			color: var(--text-light);
+			font-size: 1.1em;
+			word-break: break-all;
+			text-decoration: none;
+			display: block;
+			padding: 10px;
+			background: rgba(255, 255, 255, 0.05);
+			border-radius: 8px;
+			transition: all 0.3s;
+		}
 
-        .report-textarea:focus {
-            border-color: #ff6464;
-            box-shadow: 0 0 15px rgba(255, 100, 100, 0.3);
-        }
+		.result-link:hover {
+			background: rgba(255, 255, 255, 0.1);
+			color: var(--p1);
+		}
 
-        .report-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, #ff4444, #ff6464);
-            border: none;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+		.report-section {
+			margin-top: 20px;
+			padding: 20px;
+			background: rgba(255, 100, 100, 0.1);
+			border: 2px solid rgba(255, 100, 100, 0.3);
+			border-radius: 12px;
+			display: none;
+		}
 
-        .report-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 100, 100, 0.4);
-        }
+		.report-section.show {
+			display: block;
+			animation: popIn 0.4s ease-out;
+		}
 
-        .report-link-btn {
-            margin-top: 15px;
-            padding: 12px 20px;
-            background: rgba(255, 100, 100, 0.2);
-            border: 1px solid rgba(255, 100, 100, 0.4);
-            border-radius: 8px;
-            color: #ff6464;
-            font-size: 0.95em;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            text-align: center;
-        }
+		.report-title {
+			color: #ff6464;
+			font-size: 1.1em;
+			font-weight: bold;
+			margin-bottom: 15px;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+		}
 
-        .report-link-btn:hover {
-            background: rgba(255, 100, 100, 0.3);
-            border-color: #ff6464;
-        }
+		.report-input,
+		.report-textarea {
+			width: 100%;
+			padding: 12px;
+			margin-bottom: 15px;
+			background: var(--bg-dark);
+			border: 1px solid var(--border-color);
+			border-radius: 8px;
+			color: var(--text-light);
+			font-size: 1em;
+			outline: none;
+			transition: all 0.3s;
+			font-family: 'Poppins', sans-serif;
+		}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+		.report-textarea {
+			resize: vertical;
+			min-height: 80px;
+		}
+
+		.report-input:focus,
+		.report-textarea:focus {
+			border-color: #ff6464;
+			box-shadow: 0 0 15px rgba(255, 100, 100, 0.3);
+		}
+
+		.report-btn {
+			width: 100%;
+			padding: 15px;
+			background: linear-gradient(45deg, #ff4444, #ff6464);
+			border: none;
+			border-radius: 10px;
+			color: #fff;
+			font-size: 1.1em;
+			font-weight: bold;
+			cursor: pointer;
+			transition: all 0.3s;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-family: 'Poppins', sans-serif;
+		}
+
+		.report-btn:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 10px 25px rgba(255, 100, 100, 0.4);
+		}
+
+		.report-link-btn {
+			margin-top: 15px;
+			padding: 12px 20px;
+			background: rgba(255, 100, 100, 0.2);
+			border: 1px solid rgba(255, 100, 100, 0.4);
+			border-radius: 8px;
+			color: #ff6464;
+			font-size: 0.95em;
+			cursor: pointer;
+			transition: all 0.3s;
+			width: 100%;
+			text-align: center;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 500;
+		}
+
+		.report-link-btn:hover {
+			background: rgba(255, 100, 100, 0.3);
+			border-color: #ff6464;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@media (max-width: 768px) {
+			.container {
+				padding: 30px 20px;
+			}
+
+			h1 {
+				font-size: 2.5em;
+			}
+
+			.dropdown,
+			.dispense-btn {
+				font-size: 1em;
+				padding: 15px;
+			}
+		}
+	</style>
 </head>
+
 <body>
-    <div id="stars"></div>
-    
-    <div class="container">
-        <header>
-            <h1>Falaris's Stash</h1>
-            <div class="random-message" id="randomMessage"></div>
-        </header>
+	<div id="stars"></div>
 
-        <div class="toggle-container">
-            <span class="toggle-label">Open in about:blank</span>
-            <div class="toggle-switch" id="toggleSwitch" onclick="toggleBlankMode()">
-                <div class="toggle-slider"></div>
-            </div>
-        </div>
+	<div class="container">
+		<header>
+			<h1>Falaris's Stash</h1>
+			<div class="random-message" id="randomMessage"></div>
+		</header>
 
-        <div class="dispenser-section">
-            <select class="dropdown" id="categorySelect">
+		<div class="toggle-container">
+			<span class="toggle-label">Open in about:blank</span>
+			<div class="toggle-switch" id="toggleSwitch" onclick="toggleBlankMode()">
+				<div class="toggle-slider"></div>
+			</div>
+		</div>
+
+		<div class="cloak-container">
+			<button class="cloak-btn" onclick="cloakTab()">
+                <i class="fas fa-mask"></i> Cloak My Ass
+            </button>
+			<p class="cloak-hint">Disguise this tab as Infinite Campus</p>
+		</div>
+
+		<div class="dispenser-section">
+			<select class="dropdown" id="categorySelect">
                 <option value="petezah">Petezah</option>
                 <option value="science">Definitely Science</option>
                 <option value="flarelink">Flarelink</option>
                 <option value="pulsar">Pulsar</option>
-                 <option value="frogie">Frogies arcade</option>
+                <option value="frogie">Frogies arcade</option>
                 <option value="sample">Sample Category</option>
             </select>
 
-            <button class="dispense-btn" onclick="dispenseLink()">Dispense Link</button>
+			<button class="dispense-btn" onclick="dispenseLink()">Dispense Link</button>
 
-            <div class="result-box" id="resultBox">
-                <div class="result-label">Your Link:</div>
-                <a class="result-link" id="resultLink" href="#" target="_blank"></a>
-                <button class="report-link-btn" onclick="toggleReportForm()">Report Broken/Blocked Link</button>
-            </div>
+			<div class="result-box" id="resultBox">
+				<div class="result-label">Your Link:</div>
+				<a class="result-link" id="resultLink" href="#" target="_blank"></a>
+				<button class="report-link-btn" onclick="toggleReportForm()">Report Broken/Blocked Link</button>
+			</div>
 
-            <div class="report-section" id="reportSection">
-                <div class="report-title">Report Link Issue</div>
-                <input type="text" class="report-input" id="reportLink" placeholder="Link URL" readonly>
-                <input type="text" class="report-input" id="reportCategory" placeholder="Category" readonly>
-                <textarea class="report-textarea" id="reportReason" placeholder="Describe the issue (e.g., blocked, broken, not loading...)"></textarea>
-                <button class="report-btn" onclick="sendReport()">Send Report via Email</button>
-            </div>
-        </div>
-    </div>
+			<div class="report-section" id="reportSection">
+				<div class="report-title">Report Link Issue</div>
+				<input type="text" class="report-input" id="reportLink" placeholder="Link URL" readonly>
+				<input type="text" class="report-input" id="reportCategory" placeholder="Category" readonly>
+				<textarea class="report-textarea" id="reportReason" placeholder="Describe the issue (e.g., blocked, broken, not loading...)"></textarea>
+				<button class="report-btn" onclick="sendReport()">Send Report via Email</button>
+			</div>
+		</div>
+	</div>
 
-    <script>
-        // ========================================
-        // EDIT YOUR LINKS HERE - Easy to modify!
-        // ========================================
+	<script>
+		/* ---------- data ---------- */
         const linkCategories = {
             petezah: [
                 "https://gatekeepfromkrithiknimmagadasincehesmyopp.atamanco.eu",
@@ -527,7 +600,6 @@
             ]
         };
 
-        // Random messages that appear below the title
         const randomMessages = [
             "krithik my #1 opp",
             "why'd Google docs misspell my name :sob:",
@@ -539,12 +611,11 @@
             "skibidi skibidi"
         ];
 
-        // ========================================
-        // Star generation
+        /* ---------- UI helpers ---------- */
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const starCount = 100;
-            
+
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
@@ -556,47 +627,45 @@
             }
         }
 
-        // Display random message
         function displayRandomMessage() {
             const messageElement = document.getElementById('randomMessage');
             const randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
             messageElement.textContent = randomMsg;
         }
 
-        createStars();
-        displayRandomMessage();
-
-        // Toggle state
+        /* ---------- state ---------- */
         let useBlankMode = false;
         let currentLink = '';
         let currentCategory = '';
 
+        /* ---------- toggle about:blank mode ---------- */
         function toggleBlankMode() {
             useBlankMode = !useBlankMode;
             const toggle = document.getElementById('toggleSwitch');
             toggle.classList.toggle('active');
         }
 
+        /* ---------- report form ---------- */
         function toggleReportForm() {
             const reportSection = document.getElementById('reportSection');
             reportSection.classList.toggle('show');
-            
-            // Pre-fill the form
-            document.getElementById('reportLink').value = currentLink;
-            document.getElementById('reportCategory').value = currentCategory;
+
+            // populate fields with current link and category
+            document.getElementById('reportLink').value = currentLink || '';
+            document.getElementById('reportCategory').value = currentCategory || '';
         }
 
         function sendReport() {
             const link = document.getElementById('reportLink').value;
             const category = document.getElementById('reportCategory').value;
             const reason = document.getElementById('reportReason').value;
-            
+
             if (!reason.trim()) {
                 alert('Please describe the issue before sending the report.');
                 return;
             }
-            
-            const subject = encodeURIComponent('Falaris\'s Stash - Link Report');
+
+            const subject = encodeURIComponent("Falaris's Stash - Link Report");
             const body = encodeURIComponent(
                 `Link Issue Report\n\n` +
                 `Category: ${category}\n` +
@@ -605,53 +674,122 @@
                 `---\n` +
                 `Reported from Falaris's Stash`
             );
-            
+
+            // use the prefilled email address
             window.location.href = `mailto:srvusd-head-admin-user@students.srvusd.net?subject=${subject}&body=${body}`;
-            
-            // Clear form
+
+            // clear form and close
             document.getElementById('reportReason').value = '';
             document.getElementById('reportSection').classList.remove('show');
         }
 
+        /* ---------- dispensing links ---------- */
         function dispenseLink() {
             const category = document.getElementById('categorySelect').value;
             const links = linkCategories[category];
-            
+
             if (!links || links.length === 0) {
                 alert('No links available in this category!');
                 return;
             }
 
-            // Get random link from category
             const randomLink = links[Math.floor(Math.random() * links.length)];
             currentLink = randomLink;
             currentCategory = category;
-            
-            // Display result
+
             const resultBox = document.getElementById('resultBox');
             const resultLink = document.getElementById('resultLink');
-            
+
             resultLink.href = randomLink;
             resultLink.textContent = randomLink;
             resultBox.classList.add('show');
 
-            // Open link
             if (useBlankMode) {
+                // open in about:blank and inject an iframe that fills the window
                 const win = window.open('about:blank');
-                const iframe = win.document.createElement('iframe');
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-                iframe.style.border = "none";
-                iframe.style.position = "fixed";
-                iframe.style.top = "0";
-                iframe.style.left = "0";
-                iframe.src = randomLink;
-                win.document.body.style.margin = "0";
-                win.document.body.appendChild(iframe);
+                if (!win) {
+                    alert('Popup blocked. Please allow popups for this site to use about:blank mode.');
+                    return;
+                }
+
+                // set a minimal loading UI until iframe loads
+                try {
+                    win.document.title = 'Loading...';
+                    win.document.body.style.margin = "0";
+                    win.document.body.style.background = "#000";
+
+                    const iframe = win.document.createElement('iframe');
+                    iframe.style.width = "100%";
+                    iframe.style.height = "100%";
+                    iframe.style.border = "none";
+                    iframe.style.position = "fixed";
+                    iframe.style.top = "0";
+                    iframe.style.left = "0";
+                    iframe.src = randomLink;
+                    win.document.body.appendChild(iframe);
+                } catch (e) {
+                    // if cross-origin or blocked, fallback to direct open
+                    window.open(randomLink, '_blank');
+                }
             } else {
                 window.open(randomLink, '_blank');
             }
         }
-    </script>
+
+        /* ---------- cloak toggle (title + favicon) ---------- */
+        (function setupCloak() {
+            // cloak favicon URL (Infinite Campus)
+            const CLOAK_FAVICON = 'https://www.infinitecampus.com/themes/custom/infinitecampus/favicon.ico';
+
+            // save original title
+            const originalTitle = document.title;
+
+            // find existing favicon link (common rels) or create one
+            let faviconEl = document.querySelector("link[rel='icon'], link[rel='shortcut icon']");
+            if (!faviconEl) {
+                faviconEl = document.createElement('link');
+                faviconEl.id = 'favicon';
+                faviconEl.rel = 'icon';
+                faviconEl.href = 'favicon.ico';
+                document.head.appendChild(faviconEl);
+            }
+
+            // store original href (string)
+            const originalFaviconHref = faviconEl.href || (location.origin + '/favicon.ico');
+
+            // cloak state
+            let isCloaked = false;
+
+            // expose function
+            window.cloakTab = function () {
+                const cloakBtn = document.querySelector('.cloak-btn');
+                const hint = document.querySelector('.cloak-hint');
+
+                if (!isCloaked) {
+                    // apply cloak
+                    document.title = 'Infinite Campus';
+                    // add cache-buster so browsers refresh the icon
+                    faviconEl.href = CLOAK_FAVICON + '?v=' + Date.now();
+                    cloakBtn.innerHTML = '<i class="fas fa-mask"></i> Uncloak';
+                    cloakBtn.setAttribute('aria-pressed', 'true');
+                    hint.textContent = 'Tab cloaked as Infinite Campus — click again to uncloak.';
+                    isCloaked = true;
+                } else {
+                    // restore
+                    document.title = originalTitle;
+                    faviconEl.href = originalFaviconHref + '?v=' + Date.now();
+                    cloakBtn.innerHTML = '<i class="fas fa-mask"></i> Cloak My Ass';
+                    cloakBtn.setAttribute('aria-pressed', 'false');
+                    hint.textContent = 'Disguise this tab as Infinite Campus';
+                    isCloaked = false;
+                }
+            };
+        })();
+
+        /* ---------- init ---------- */
+        createStars();
+        displayRandomMessage();
+	</script>
 </body>
+
 </html>
