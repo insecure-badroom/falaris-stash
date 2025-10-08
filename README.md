@@ -1,3 +1,4 @@
 - ***FALARIS STASH***
 - This repo is a bunch of different pr0xy links as a dispenser website.
+- This repo includes **exprint3r** as an option to attempt to freeze extensions.
 - The two services in InsecureBadroom for this link dispenser is [Falaris's Stash](https://schoolwork7thgrade.vercel.app/falarisstash.html) and [Darrkon Launcher v4](https://schoolwork7thgrade.vercel.app/)
