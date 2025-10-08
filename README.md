@@ -1,6 +1,3 @@
-# Based on AJH's vault
-
-# TODO
-- add "**cloak my ass**" feature
-- more links
-- etc **whatever i think of**
+- ***FALARIS STASH***
+- This repo is a bunch of different pr0xy links as a dispenser website.
+- The two services in InsecureBadroom for this link dispenser is [Falaris's Stash](https://schoolwork7thgrade.vercel.app/falarisstash.html) and [Darrkon Launcher v4](https://schoolwork7thgrade.vercel.app/)
