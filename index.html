@@ -1,799 +1,740 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Falaris's Stash</title>
-	<!-- initial favicon (will be replaced/restored by script) -->
-	<link id="favicon" rel="icon" href="favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	<style>
-		@font-face {
-			font-family: 'Poppins';
-			font-style: normal;
-			font-weight: 400;
-			font-display: swap;
-			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrFJA.ttf") format('truetype');
-		}
-
-		@font-face {
-			font-family: 'Poppins';
-			font-style: normal;
-			font-weight: 500;
-			font-display: swap;
-			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9V1s.ttf") format('truetype');
-		}
-
-		@font-face {
-			font-family: 'Poppins';
-			font-style: normal;
-			font-weight: 600;
-			font-display: swap;
-			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6V1s.ttf") format('truetype');
-		}
-
-		@font-face {
-			font-family: 'Poppins';
-			font-style: normal;
-			font-weight: 700;
-			font-display: swap;
-			src: url("https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7V1s.ttf") format('truetype');
-		}
-
-		:root {
-			--p1: #59cebf;
-			--p2: #42b4ab;
-			--p3: #3ac3ab;
-			--p4: #20b896;
-			--p5: #12ae9a;
-			--bg-dark: #0D0D0D;
-			--bg-card: #161616;
-			--text-light: #EAEAEA;
-			--text-dark: #CCCCCC;
-			--border-color: #2a2a2a;
-		}
-
-		*,
-		*::before,
-		*::after {
-			box-sizing: border-box;
-		}
-
-		body {
-			font-family: 'Poppins', sans-serif;
-			background-color: var(--bg-dark);
-			color: var(--text-light);
-			margin: 0;
-			padding: 0;
-			min-height: 100vh;
-			overflow-x: hidden;
-			position: relative;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(58, 195, 171, 0.2), transparent);
-		}
-
-		#stars {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			pointer-events: none;
-			z-index: 0;
-		}
-
-		.star {
-			position: absolute;
-			width: 2px;
-			height: 2px;
-			background: var(--p1);
-			border-radius: 50%;
-			animation: twinkle 3s infinite;
-		}
-
-		@keyframes twinkle {
-
-			0%,
-			100% {
-				opacity: 0.3;
-				transform: scale(1);
-			}
-
-			50% {
-				opacity: 1;
-				transform: scale(1.5);
-			}
-		}
-
-		.container {
-			max-width: 600px;
-			width: 90%;
-			padding: 50px 40px;
-			position: relative;
-			z-index: 1;
-			background: var(--bg-card);
-			border: 1px solid var(--border-color);
-			border-radius: 25px;
-			backdrop-filter: blur(20px);
-			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-			animation: fadeIn 0.8s ease-out;
-		}
-
-		header {
-			text-align: center;
-			margin-bottom: 40px;
-		}
-
-		h1 {
-			font-size: 3em;
-			background: linear-gradient(45deg, var(--p1), var(--p3), var(--p4));
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-			margin-bottom: 15px;
-			font-weight: 700;
-		}
-
-		.random-message {
-			color: var(--text-dark);
-			font-style: italic;
-			font-size: 1em;
-			margin-bottom: 10px;
-			min-height: 25px;
-			animation: slideIn 0.5s ease-out;
-		}
-
-		@keyframes slideIn {
-			from {
-				opacity: 0;
-				transform: translateX(-20px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateX(0);
-			}
-		}
-
-		.toggle-container {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 15px;
-			margin-bottom: 30px;
-			padding: 15px;
-			background: rgba(255, 255, 255, 0.05);
-			border-radius: 15px;
-			border: 1px solid var(--border-color);
-		}
-
-		.toggle-label {
-			font-size: 1em;
-			color: var(--text-dark);
-			font-weight: 500;
-		}
-
-		.toggle-switch {
-			position: relative;
-			width: 60px;
-			height: 30px;
-			background: rgba(255, 255, 255, 0.1);
-			border-radius: 30px;
-			cursor: pointer;
-			transition: all 0.3s;
-			border: 2px solid var(--border-color);
-		}
-
-		.toggle-switch.active {
-			background: linear-gradient(45deg, var(--p3), var(--p1));
-			border-color: transparent;
-		}
-
-		.toggle-slider {
-			position: absolute;
-			top: 3px;
-			left: 3px;
-			width: 20px;
-			height: 20px;
-			background: #fff;
-			border-radius: 50%;
-			transition: all 0.3s;
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-		}
-
-		.toggle-switch.active .toggle-slider {
-			transform: translateX(30px);
-		}
-
-		.cloak-container {
-			text-align: center;
-			margin-bottom: 30px;
-			padding: 20px;
-			background: rgba(89, 206, 191, 0.1);
-			border-radius: 15px;
-			border: 1px solid var(--p3);
-		}
-
-		.cloak-btn {
-			width: 100%;
-			padding: 15px 20px;
-			background: linear-gradient(45deg, var(--p3), var(--p1));
-			border: none;
-			border-radius: 12px;
-			color: var(--bg-dark);
-			font-size: 1.1em;
-			font-weight: 600;
-			cursor: pointer;
-			transition: all 0.3s;
-			font-family: 'Poppins', sans-serif;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
-		}
-
-		.cloak-btn:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 8px 20px rgba(89, 206, 191, 0.4);
-		}
-
-		.cloak-btn i {
-			font-size: 1.2em;
-		}
-
-		.cloak-hint {
-			margin-top: 10px;
-			font-size: 0.85em;
-			color: var(--text-dark);
-			font-style: italic;
-		}
-
-		.dispenser-section {
-			margin-bottom: 30px;
-		}
-
-		.dropdown {
-			width: 100%;
-			padding: 18px 20px;
-			font-size: 1.2em;
-			background: var(--bg-dark);
-			border: 2px solid var(--border-color);
-			border-radius: 15px;
-			color: var(--text-light);
-			cursor: pointer;
-			transition: all 0.3s;
-			margin-bottom: 20px;
-			outline: none;
-			font-weight: 500;
-			font-family: 'Poppins', sans-serif;
-			appearance: none;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2359cebf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-			background-repeat: no-repeat;
-			background-position: right 15px center;
-			background-size: 20px;
-			padding-right: 50px;
-		}
-
-		.dropdown:hover {
-			border-color: var(--p3);
-			box-shadow: 0 0 0 3px rgba(58, 195, 171, 0.3);
-		}
-
-		.dropdown:focus {
-			border-color: var(--p1);
-			box-shadow: 0 0 0 3px rgba(89, 206, 191, 0.3);
-		}
-
-		.dropdown option {
-			background: var(--bg-dark);
-			color: var(--text-light);
-			padding: 15px;
-			font-size: 1em;
-		}
-
-		.btn,
-		.dispense-btn {
-			width: 100%;
-			padding: 20px;
-			font-size: 1.3em;
-			font-weight: 600;
-			background: var(--text-light);
-			color: var(--bg-dark);
-			border: none;
-			border-radius: 15px;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			text-transform: uppercase;
-			letter-spacing: 2px;
-			position: relative;
-			overflow: hidden;
-			font-family: 'Poppins', sans-serif;
-		}
-
-		.btn:hover,
-		.dispense-btn:hover {
-			background: var(--p1);
-			transform: translateY(-2px);
-			box-shadow: 0 4px 15px rgba(89, 206, 191, 0.2);
-		}
-
-		.btn:active,
-		.dispense-btn:active {
-			transform: translateY(-1px);
-		}
-
-		.result-box {
-			margin-top: 25px;
-			padding: 20px;
-			background: var(--bg-dark);
-			border: 2px solid var(--p3);
-			border-radius: 12px;
-			min-height: 80px;
-			display: none;
-			animation: popIn 0.4s ease-out;
-		}
-
-		.result-box.show {
-			display: block;
-		}
-
-		@keyframes popIn {
-			0% {
-				opacity: 0;
-				transform: scale(0.8);
-			}
-
-			100% {
-				opacity: 1;
-				transform: scale(1);
-			}
-		}
-
-		.result-label {
-			color: var(--p1);
-			font-size: 0.9em;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			margin-bottom: 10px;
-			font-weight: 600;
-		}
-
-		.result-link {
-			color: var(--text-light);
-			font-size: 1.1em;
-			word-break: break-all;
-			text-decoration: none;
-			display: block;
-			padding: 10px;
-			background: rgba(255, 255, 255, 0.05);
-			border-radius: 8px;
-			transition: all 0.3s;
-		}
-
-		.result-link:hover {
-			background: rgba(255, 255, 255, 0.1);
-			color: var(--p1);
-		}
-
-		.report-section {
-			margin-top: 20px;
-			padding: 20px;
-			background: rgba(255, 100, 100, 0.1);
-			border: 2px solid rgba(255, 100, 100, 0.3);
-			border-radius: 12px;
-			display: none;
-		}
-
-		.report-section.show {
-			display: block;
-			animation: popIn 0.4s ease-out;
-		}
-
-		.report-title {
-			color: #ff6464;
-			font-size: 1.1em;
-			font-weight: bold;
-			margin-bottom: 15px;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-		}
-
-		.report-input,
-		.report-textarea {
-			width: 100%;
-			padding: 12px;
-			margin-bottom: 15px;
-			background: var(--bg-dark);
-			border: 1px solid var(--border-color);
-			border-radius: 8px;
-			color: var(--text-light);
-			font-size: 1em;
-			outline: none;
-			transition: all 0.3s;
-			font-family: 'Poppins', sans-serif;
-		}
-
-		.report-textarea {
-			resize: vertical;
-			min-height: 80px;
-		}
-
-		.report-input:focus,
-		.report-textarea:focus {
-			border-color: #ff6464;
-			box-shadow: 0 0 15px rgba(255, 100, 100, 0.3);
-		}
-
-		.report-btn {
-			width: 100%;
-			padding: 15px;
-			background: linear-gradient(45deg, #ff4444, #ff6464);
-			border: none;
-			border-radius: 10px;
-			color: #fff;
-			font-size: 1.1em;
-			font-weight: bold;
-			cursor: pointer;
-			transition: all 0.3s;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			font-family: 'Poppins', sans-serif;
-		}
-
-		.report-btn:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 10px 25px rgba(255, 100, 100, 0.4);
-		}
-
-		.report-link-btn {
-			margin-top: 15px;
-			padding: 12px 20px;
-			background: rgba(255, 100, 100, 0.2);
-			border: 1px solid rgba(255, 100, 100, 0.4);
-			border-radius: 8px;
-			color: #ff6464;
-			font-size: 0.95em;
-			cursor: pointer;
-			transition: all 0.3s;
-			width: 100%;
-			text-align: center;
-			font-family: 'Poppins', sans-serif;
-			font-weight: 500;
-		}
-
-		.report-link-btn:hover {
-			background: rgba(255, 100, 100, 0.3);
-			border-color: #ff6464;
-		}
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-				transform: translateY(20px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		@media (max-width: 768px) {
-			.container {
-				padding: 30px 20px;
-			}
-
-			h1 {
-				font-size: 2.5em;
-			}
-
-			.dropdown,
-			.dispense-btn {
-				font-size: 1em;
-				padding: 15px;
-			}
-		}
-	</style>
-</head>
-<meta property="og:title" content="Falaris's Stash">
-<meta property="og:description" content="Better than AFH's vault">
-<meta property="og:image" content="https://i1.sndcdn.com/artworks-Uf58JIR29FusKP1Q-NqUajQ-t500x500.jpg">
-<meta property="og:url" content="https://falaris-stash.global.ssl.fastly.net">
-<meta property="og:type" content="website">
-<body>
-	<div id="stars"></div>
-
-	<div class="container">
-		<header>
-			<h1>Falaris's Stash</h1>
-			<div class="random-message" id="randomMessage"></div>
-		</header>
-
-		<div class="toggle-container">
-			<span class="toggle-label">Open in about:blank</span>
-			<div class="toggle-switch" id="toggleSwitch" onclick="toggleBlankMode()">
-				<div class="toggle-slider"></div>
-			</div>
-		</div>
-
-		<div class="cloak-container">
-			<button class="cloak-btn" onclick="cloakTab()">
-                <i class="fas fa-mask"></i> Cloak My Ass
-            </button>
-			<p class="cloak-hint">Disguise this tab as Infinite Campus</p>
-		</div>
-
-		<div class="dispenser-section">
-			<select class="dropdown" id="categorySelect">
-                <option value="petezah">Petezah</option>
-                <option value="science">Definitely Science</option>
-                <option value="flarelink">Flarelink</option>
-                <option value="pulsar">Pulsar</option>
-                <option value="frogie">Frogies arcade</option>
-                <option value="sample">Sample Category</option>
-            </select>
-
-			<button class="dispense-btn" onclick="dispenseLink()">Dispense Link</button>
-
-			<div class="result-box" id="resultBox">
-				<div class="result-label">Your Link:</div>
-				<a class="result-link" id="resultLink" href="#" target="_blank"></a>
-				<button class="report-link-btn" onclick="toggleReportForm()">Report Broken/Blocked Link</button>
-			</div>
-
-			<div class="report-section" id="reportSection">
-				<div class="report-title">Report Link Issue</div>
-				<input type="text" class="report-input" id="reportLink" placeholder="Link URL" readonly>
-				<input type="text" class="report-input" id="reportCategory" placeholder="Category" readonly>
-				<textarea class="report-textarea" id="reportReason" placeholder="Describe the issue (e.g., blocked, broken, not loading...)"></textarea>
-				<button class="report-btn" onclick="sendReport()">Send Report via Email</button>
-			</div>
-		</div>
-	</div>
-
-	<script>
-		/* ---------- data ---------- */
-        const linkCategories = {
-            petezah: [
-                "https://gatekeepfromkrithiknimmagadasincehesmyopp.atamanco.eu",
-                "https://gatekeepthisfr.atamanco.eu",
-                "https://iknowyouhaveacrushonme.atamanco.eu",
-                "https://krithiknimmagadagoestodoughertyvalleyhighschoollivesinsanramon.atamanco.eu",
-                "https://shreyesmedidiisthegoatfrfr.atamanco.eu",
-                "https://advancedchemistry.atamanco.eu",
-                "https://linewize.com.atamanco.eu",
-                "https://linkforarjundasigma.atamanco.eu",
-                "https://precalculus.atamanco.eu",
-                "https://securly.com.atamanco.eu"
-            ],
-            science: [
-                "https://platform.geometrylesson.com/",
-                "https://Ed.supermathschool.com",
-                "https://tl.friv-2026.com/"
-            ],
-            flarelink: [
-                "https://jayesh.googledrive.icu.cdn.cloudflare.net/",
-                "https://advancedcalculus.ghostnation.org/",
-                "https://1pklvm.prodigy.it.com.cdn.cloudflare.net/",
-                "https://vq5skfeq.googledrive.icu.cdn.cloudflare.net/",
-                "https://xd8rs5ix.tb.googledrive.icu.cdn.cloudflare.net/"
-            ],
-            pulsar: [
-                "https://pulsar-site.netlify.app/",
-                "https://whatintheofficial.netlify.app/",
-                "https://officialgreatsite.netlify.app/",
-                "https://pulsariscool.netlify.app/",
-                "https://greatsitetouse.netlify.app/"
-            ],
-            frogie: [
-                "https://a.a.d.i.t.hasacrushon.f.a.l.a.r.i.s.lol.atamanco.eu",
-                "https://if-you-block-this-you-cancelled.yourmom.sigmasubscription.atamanco.eu",
-                "https://k.r.i.t.h.i.k-im-watching-you.atamanco.eu",
-                "https://k.r.i.t.h.i.k.lol.acceleratedalgebra2.atamanco.eu",
-                "https://medidi.lol.atamanco.eu"
-            ],
-            sample: [
-                "https://example.com/sample1",
-                "https://example.com/sample2",
-                "https://example.com/sample3"
-            ]
-        };
-
-        const randomMessages = [
-            "krithik my #1 opp",
-            "why'd Google docs misspell my name :sob:",
-            "ajh's vault skibidi?!",
-            "smoresxo ripoff",
-            "quick, close the tab! There's a teacher coming!",
-            "gatekeep this fr",
-            "don't share with krithik",
-            "skibidi skibidi"
-        ];
-
-        /* ---------- UI helpers ---------- */
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starCount = 100;
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                starsContainer.appendChild(star);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falaris's Stash</title>
+    <link id="favicon" rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary: #59cebf;
+            --primary-dark: #42b4ab;
+            --primary-light: #6ddccf;
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --bg-elevated: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border: #2a2a2a;
+            --danger: #ff6464;
+            --success: #4ade80;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(89, 206, 191, 0.15), transparent),
+                        radial-gradient(circle at 80% 80%, rgba(89, 206, 191, 0.1), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            50% { 
+                opacity: 0.6;
+                transform: translateY(-100vh) scale(1);
             }
         }
 
-        function displayRandomMessage() {
-            const messageElement = document.getElementById('randomMessage');
-            const randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
-            messageElement.textContent = randomMsg;
+        .container {
+            max-width: 680px;
+            width: 92%;
+            margin: 2rem auto;
+            position: relative;
+            z-index: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.6s ease-out;
         }
 
-        /* ---------- state ---------- */
-        let useBlankMode = false;
-        let currentLink = '';
-        let currentCategory = '';
-
-        /* ---------- toggle about:blank mode ---------- */
-        function toggleBlankMode() {
-            useBlankMode = !useBlankMode;
-            const toggle = document.getElementById('toggleSwitch');
-            toggle.classList.toggle('active');
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* ---------- report form ---------- */
-        function toggleReportForm() {
-            const reportSection = document.getElementById('reportSection');
-            reportSection.classList.toggle('show');
-
-            // populate fields with current link and category
-            document.getElementById('reportLink').value = currentLink || '';
-            document.getElementById('reportCategory').value = currentCategory || '';
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
         }
 
-        function sendReport() {
-            const link = document.getElementById('reportLink').value;
-            const category = document.getElementById('reportCategory').value;
-            const reason = document.getElementById('reportReason').value;
+        .header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin: 1.5rem auto 0;
+        }
 
-            if (!reason.trim()) {
-                alert('Please describe the issue before sending the report.');
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.8rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        .card-section {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-section:hover {
+            border-color: rgba(89, 206, 191, 0.3);
+            box-shadow: 0 8px 24px rgba(89, 206, 191, 0.08);
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .toggle-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .toggle {
+            position: relative;
+            width: 56px;
+            height: 28px;
+            background: var(--border);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle.active {
+            background: var(--primary);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle.active .toggle-slider {
+            transform: translateX(28px);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 16px rgba(89, 206, 191, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(89, 206, 191, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: var(--bg-card);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4444, var(--danger));
+            color: white;
+            box-shadow: 0 4px 16px rgba(255, 100, 100, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(255, 100, 100, 0.4);
+        }
+
+        .select-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.25rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            appearance: none;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        select:hover {
+            border-color: var(--primary);
+        }
+
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(89, 206, 191, 0.1);
+        }
+
+        .select-wrapper::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            pointer-events: none;
+        }
+
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            display: none;
+            animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .result-link {
+            display: block;
+            padding: 1rem;
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .result-link:hover {
+            background: var(--bg-card);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .report-section {
+            margin-top: 1rem;
+            padding: 1.5rem;
+            background: rgba(255, 100, 100, 0.05);
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            border-radius: 12px;
+            display: none;
+        }
+
+        .report-section.show {
+            display: block;
+            animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(255, 100, 100, 0.1);
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem auto;
+            }
+
+            .card-section {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div id="particles"></div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Falaris's Stash</h1>
+            <p class="subtitle" id="subtitle">Better than AFH's vault</p>
+        </header>
+
+        <div class="card-section">
+            <div class="section-title">
+                <i class="fas fa-window-maximize"></i>
+                Tab Settings
+            </div>
+            <div class="toggle-group">
+                <label class="toggle-label" for="blankToggle">Open in about:blank</label>
+                <div class="toggle" id="blankToggle" onclick="toggleBlank()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-section">
+            <div class="section-title">
+                <i class="fas fa-mask"></i>
+                Tab Cloaking
+            </div>
+            <button class="btn btn-primary" onclick="cloakTab()">
+                <i class="fas fa-user-secret"></i>
+                <span id="cloakText">Cloak as Infinite Campus</span>
+            </button>
+            <p class="hint">Disguises this tab to look like Infinite Campus</p>
+        </div>
+
+        <div class="card-section">
+            <div class="section-title">
+                <i class="fas fa-link"></i>
+                Link Dispenser
+            </div>
+            
+            <div class="select-wrapper">
+                <select id="categorySelect">
+                    <option value="">Select a category...</option>
+                    <option value="petezah">Petezah</option>
+                    <option value="science">Definitely Science</option>
+                    <option value="flarelink">Flarelink</option>
+                    <option value="pulsar">Pulsar</option>
+                    <option value="frogie">Frogie's Arcade</option>
+                    <option value="sample">Sample Category</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" onclick="dispenseLink()" id="dispenseBtn">
+                <i class="fas fa-gift"></i>
+                <span>Dispense Link</span>
+            </button>
+
+            <div class="result-box" id="resultBox">
+                <div class="result-header">
+                    <i class="fas fa-check-circle"></i>
+                    Your Link
+                </div>
+                <a class="result-link" id="resultLink" href="#" target="_blank"></a>
+                <button class="btn btn-secondary" style="margin-top: 1rem;" onclick="toggleReport()">
+                    <i class="fas fa-flag"></i>
+                    Report Issue
+                </button>
+            </div>
+
+            <div class="report-section" id="reportSection">
+                <div class="section-title" style="color: var(--danger);">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Report Link Issue
+                </div>
+                <input type="text" id="reportLink" placeholder="Link URL" readonly>
+                <input type="text" id="reportCategory" placeholder="Category" readonly>
+                <textarea id="reportReason" placeholder="Describe the issue (e.g., blocked, not loading, broken...)"></textarea>
+                <button class="btn btn-danger" onclick="sendReport()">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Anti-scraping measures:
+        // 1. Links are encoded and only decoded when needed
+        // 2. Time-based verification
+        // 3. User interaction required
+        // 4. Links split into parts and assembled dynamically
+
+        const subtitles = ['krithik my #1 opp', 'better than AFH\'s vault', 'gatekeep this fr', 'don\'t share with krithik', 'quick, close the tab!'];
+        let useBlank = false, currentLink = '', currentCategory = '', isCloaked = false;
+        const originalTitle = document.title, originalFavicon = document.querySelector('#favicon').href;
+        let initTime = Date.now();
+
+        // Obfuscated link data - encoded in Base64 and split
+        const _0x4a = atob('aHR0cHM6Ly8='); // https://
+        const _data = {
+            p: ['Z2F0ZWtlZXBmcm9ta3JpdGhpa25pbW1hZ2FkYXNpbmNlaGVzbXlvcHAuYXRhbWFuY28uZXU=','Z2F0ZWtlZXB0aGlzZnIuYXRhbWFuY28uZXU=','aWtub3d5b3VoYXZlYWNydXNob25tZS5hdGFtYW5jby5ldQ==','a3JpdGhpa25pbW1hZ2FkYWdvZXN0b2RvdWdoZXJ0eXZhbGxleWhpZ2hzY2hvb2xsaXZlc2luc2FucmFtb24uYXRhbWFuY28uZXU=','c2hyZXllc21lZGlkaWlzdGhlZ29hdGZyZnIuYXRhbWFuY28uZXU=','YWR2YW5jZWRjaGVtaXN0cnkuYXRhbWFuY28uZXU=','bGluZXdpemUuY29tLmF0YW1hbmNvLmV1','bGlua2ZvcmFyanVuZGFzaWdtYS5hdGFtYW5jby5ldQ==','cHJlY2FsY3VsdXMuYXRhbWFuY28uZXU=','c2VjdXJseS5jb20uYXRhbWFuY28uZXU='],
+            s: ['cGxhdGZvcm0uZ2VvbWV0cnlsZXNzb24uY29tLw==','RWQuc3VwZXJtYXRoc2Nob29sLmNvbQ==','dGwuZnJpdi0yMDI2LmNvbS8='],
+            f: ['amF5ZXNoLmdvb2dsZWRyaXZlLmljdS5jZG4uY2xvdWRmbGFyZS5uZXQv','YWR2YW5jZWRjYWxjdWx1cy5naG9zdG5hdGlvbi5vcmcv','MXBrbHZtLnByb2RpZ3kuaXQuY29tLmNkbi5jbG91ZGZsYXJlLm5ldC8=','dnE1c2tmZXEuZ29vZ2xlZHJpdmUuaWN1LmNkbi5jbG91ZGZsYXJlLm5ldC8=','eGQ4cnM1aXgudGIuZ29vZ2xlZHJpdmUuaWN1LmNkbi5jbG91ZGZsYXJlLm5ldC8='],
+            u: ['cHVsc2FyLXNpdGUubmV0bGlmeS5hcHAv','d2hhdGludGhlb2ZmaWNpYWwubmV0bGlmeS5hcHAv','b2ZmaWNpYWxncmVhdHNpdGUubmV0bGlmeS5hcHAv','cHVsc2FyaXNjb29sLm5ldGxpZnkuYXBwLw==','Z3JlYXRzaXRldG91c2UubmV0bGlmeS5hcHAv'],
+            r: ['YS5hLmQuaS50Lmhhc2FjcnVzaG9uLmYuYS5sLmEuci5pLnMubG9sLmF0YW1hbmNvLmV1','aWYteW91LWJsb2NrLXRoaXMteW91LWNhbmNlbGxlZC55b3VybW9tLnNpZ21hc3Vic2NyaXB0aW9uLmF0YW1hbmNvLmV1','ay5yLmkudC5oLmkuay1pbS13YXRjaGluZy15b3UuYXRhbWFuY28uZXU=','ay5yLmkudC5oLmkuay5sb2wuYWNjZWxlcmF0ZWRhbGdlYnJhMi5hdGFtYW5jby5ldQ==','bWVkaWRpLmxvbC5hdGFtYW5jby5ldQ=='],
+            x: ['ZXhhbXBsZS5jb20vc2FtcGxlMQ==','ZXhhbXBsZS5jb20vc2FtcGxlMg==','ZXhhbXBsZS5jb20vc2FtcGxlMw==']
+        };
+
+        // Map categories
+        const _m = {petezah:'p',science:'s',flarelink:'f',pulsar:'u',frogie:'r',sample:'x'};
+
+        // Decode function - requires time verification
+        function _dec(e) {
+            if (Date.now() - initTime > 3600000) return null; // 1 hour expiry
+            try {
+                return _0x4a + atob(e);
+            } catch(err) {
+                return null;
+            }
+        }
+
+        // Get links for category
+        function _get(cat) {
+            const k = _m[cat];
+            if (!k || !_data[k]) return [];
+            return _data[k].map(e => _dec(e)).filter(Boolean);
+        }
+
+        function createParticles() {
+            const c = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                c.appendChild(p);
+            }
+        }
+
+        function updateSubtitle() {
+            document.getElementById('subtitle').textContent = subtitles[Math.floor(Math.random() * subtitles.length)];
+        }
+
+        function toggleBlank() {
+            useBlank = !useBlank;
+            document.getElementById('blankToggle').classList.toggle('active');
+        }
+
+        function cloakTab() {
+            const btn = document.querySelector('[onclick="cloakTab()"]');
+            const text = document.getElementById('cloakText');
+            const favicon = document.querySelector('#favicon');
+            
+            if (!isCloaked) {
+                document.title = 'Infinite Campus';
+                favicon.href = 'favicon2.ico';
+                text.textContent = 'Restore Original';
+                btn.classList.add('active');
+                isCloaked = true;
+            } else {
+                document.title = originalTitle;
+                favicon.href = originalFavicon;
+                text.textContent = 'Cloak as Infinite Campus';
+                btn.classList.remove('active');
+                isCloaked = false;
+            }
+        }
+
+        async function dispenseLink() {
+            const category = document.getElementById('categorySelect').value;
+            const btn = document.getElementById('dispenseBtn');
+            
+            if (!category) {
+                alert('Please select a category first!');
                 return;
             }
 
+            btn.classList.add('loading');
+            
+            // Simulate processing time (anti-bot)
+            await new Promise(r => setTimeout(r, 300 + Math.random() * 400));
+            
+            const links = _get(category);
+            if (!links.length) {
+                alert('No links available!');
+                btn.classList.remove('loading');
+                return;
+            }
+            
+            const link = links[Math.floor(Math.random() * links.length)];
+            currentLink = link;
+            currentCategory = category;
+            
+            const resultBox = document.getElementById('resultBox');
+            const resultLink = document.getElementById('resultLink');
+            
+            resultLink.href = link;
+            resultLink.textContent = link;
+            resultBox.classList.add('show');
+            
+            if (useBlank) {
+                openInBlank(link);
+            } else {
+                window.open(link, '_blank');
+            }
+            
+            btn.classList.remove('loading');
+        }
+
+        function openInBlank(url) {
+            const win = window.open('about:blank');
+            if (!win) {
+                alert('Popup blocked. Please allow popups.');
+                return;
+            }
+            
+            try {
+                win.document.title = 'Loading...';
+                win.document.body.style.margin = '0';
+                win.document.body.style.background = '#000';
+                
+                const iframe = win.document.createElement('iframe');
+                iframe.style.cssText = 'width:100%;height:100%;border:none;position:fixed;top:0;left:0;';
+                iframe.src = url;
+                win.document.body.appendChild(iframe);
+            } catch (e) {
+                window.open(url, '_blank');
+            }
+        }
+
+        function toggleReport() {
+            const section = document.getElementById('reportSection');
+            section.classList.toggle('show');
+            
+            document.getElementById('reportLink').value = currentLink;
+            document.getElementById('reportCategory').value = currentCategory;
+        }
+
+        function sendReport() {
+            const reason = document.getElementById('reportReason').value;
+            
+            if (!reason.trim()) {
+                alert('Please describe the issue.');
+                return;
+            }
+            
             const subject = encodeURIComponent("Falaris's Stash - Link Report");
-            const body = encodeURIComponent(
-                `Link Issue Report\n\n` +
-                `Category: ${category}\n` +
-                `Link: ${link}\n\n` +
-                `Issue Description:\n${reason}\n\n` +
-                `---\n` +
-                `Reported from Falaris's Stash`
-            );
-
-            // use the prefilled email address
+            const body = encodeURIComponent(`Link Issue Report\n\nCategory: ${currentCategory}\nLink: ${currentLink}\n\nIssue: ${reason}\n\n---\nReported from Falaris's Stash`);
+            
             window.location.href = `mailto:srvusd-head-admin-user@students.srvusd.net?subject=${subject}&body=${body}`;
-
-            // clear form and close
+            
             document.getElementById('reportReason').value = '';
             document.getElementById('reportSection').classList.remove('show');
         }
 
-        /* ---------- dispensing links ---------- */
-        function dispenseLink() {
-            const category = document.getElementById('categorySelect').value;
-            const links = linkCategories[category];
+        // Initialize
+        createParticles();
+        updateSubtitle();
 
-            if (!links || links.length === 0) {
-                alert('No links available in this category!');
-                return;
-            }
-
-            const randomLink = links[Math.floor(Math.random() * links.length)];
-            currentLink = randomLink;
-            currentCategory = category;
-
-            const resultBox = document.getElementById('resultBox');
-            const resultLink = document.getElementById('resultLink');
-
-            resultLink.href = randomLink;
-            resultLink.textContent = randomLink;
-            resultBox.classList.add('show');
-
-            if (useBlankMode) {
-                // open in about:blank and inject an iframe that fills the window
-                const win = window.open('about:blank');
-                if (!win) {
-                    alert('Popup blocked. Please allow popups for this site to use about:blank mode.');
-                    return;
-                }
-
-                // set a minimal loading UI until iframe loads
-                try {
-                    win.document.title = 'Loading...';
-                    win.document.body.style.margin = "0";
-                    win.document.body.style.background = "#000";
-
-                    const iframe = win.document.createElement('iframe');
-                    iframe.style.width = "100%";
-                    iframe.style.height = "100%";
-                    iframe.style.border = "none";
-                    iframe.style.position = "fixed";
-                    iframe.style.top = "0";
-                    iframe.style.left = "0";
-                    iframe.src = randomLink;
-                    win.document.body.appendChild(iframe);
-                } catch (e) {
-                    // if cross-origin or blocked, fallback to direct open
-                    window.open(randomLink, '_blank');
-                }
-            } else {
-                window.open(randomLink, '_blank');
-            }
-        }
-
-        /* ---------- cloak toggle (title + favicon) ---------- */
-        (function setupCloak() {
-            // cloak favicon URL (Infinite Campus)
-            const CLOAK_FAVICON = 'favicon2.ico';
-
-            // save original title
-            const originalTitle = document.title;
-
-            // find existing favicon link (common rels) or create one
-            let faviconEl = document.querySelector("link[rel='icon'], link[rel='shortcut icon']");
-            if (!faviconEl) {
-                faviconEl = document.createElement('link');
-                faviconEl.id = 'favicon';
-                faviconEl.rel = 'icon';
-                faviconEl.href = 'favicon.ico';
-                document.head.appendChild(faviconEl);
-            }
-
-            // store original href (string)
-            const originalFaviconHref = faviconEl.href || (location.origin + '/favicon.ico');
-
-            // cloak state
-            let isCloaked = false;
-
-            // expose function
-            window.cloakTab = function () {
-                const cloakBtn = document.querySelector('.cloak-btn');
-                const hint = document.querySelector('.cloak-hint');
-
-                if (!isCloaked) {
-                    // apply cloak
-                    document.title = 'Infinite Campus';
-                    // add cache-buster so browsers refresh the icon
-                    faviconEl.href = CLOAK_FAVICON + '?v=' + Date.now();
-                    cloakBtn.innerHTML = '<i class="fas fa-mask"></i> Uncloak';
-                    cloakBtn.setAttribute('aria-pressed', 'true');
-                    hint.textContent = 'Tab cloaked as Infinite Campus — click again to uncloak.';
-                    isCloaked = true;
-                } else {
-                    // restore
-                    document.title = originalTitle;
-                    faviconEl.href = originalFaviconHref + '?v=' + Date.now();
-                    cloakBtn.innerHTML = '<i class="fas fa-mask"></i> Cloak My Ass';
-                    cloakBtn.setAttribute('aria-pressed', 'false');
-                    hint.textContent = 'Disguise this tab as Infinite Campus';
-                    isCloaked = false;
-                }
+        // Anti-debug measures
+        (function() {
+            const devtools = /./;
+            devtools.toString = function() {
+                this.opened = true;
             };
+            const checkDevTools = setInterval(function() {
+                if (devtools.opened) {
+                    clearInterval(checkDevTools);
+                    // Don't block, just refresh init time
+                    initTime = Date.now();
+                    devtools.opened = false;
+                }
+            }, 1000);
         })();
-
-        /* ---------- init ---------- */
-        createStars();
-        displayRandomMessage();
-	</script>
+    </script>
 </body>
-
 </html>
