@@ -175,6 +175,11 @@
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-group:last-child {
+            margin-bottom: 0;
         }
 
         .toggle-label {
@@ -211,6 +216,40 @@
 
         .toggle.active .toggle-slider {
             transform: translateX(28px);
+        }
+
+        .category-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-option {
+            padding: 0.65rem 1.25rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .category-option:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .category-option.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 2px 8px rgba(89, 206, 191, 0.3);
         }
 
         .btn {
@@ -280,48 +319,6 @@
         .btn-danger:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(255, 100, 100, 0.4);
-        }
-
-        .select-wrapper {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-
-        select {
-            width: 100%;
-            padding: 1rem 3rem 1rem 1.25rem;
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            appearance: none;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        select:hover {
-            border-color: var(--primary);
-        }
-
-        select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(89, 206, 191, 0.1);
-        }
-
-        .select-wrapper::after {
-            content: '\f078';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            right: 1.25rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-            pointer-events: none;
         }
 
         .result-box {
@@ -447,6 +444,16 @@
             to { transform: rotate(360deg); }
         }
 
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 2rem 1.5rem;
@@ -480,6 +487,13 @@
                     <div class="toggle-slider"></div>
                 </div>
             </div>
+            <div class="toggle-group">
+                <label class="toggle-label" for="exitConfirmToggle">Exit confirmation</label>
+                <div class="toggle" id="exitConfirmToggle" onclick="toggleExitConfirm()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            <p class="hint" style="margin-top: 0.75rem;">Tab close prevention</p>
         </div>
 
         <div class="card-section">
@@ -500,16 +514,13 @@
                 Link Dispenser
             </div>
             
-            <div class="select-wrapper">
-                <select id="categorySelect">
-                    <option value="">Select a category...</option>
-                    <option value="petezah">Petezah</option>
-                    <option value="science">Definitely Science</option>
-                    <option value="flarelink">Flarelink</option>
-                    <option value="pulsar">Pulsar</option>
-                    <option value="frogie">Frogie's Arcade</option>
-                    <option value="sample">Sample Category</option>
-                </select>
+            <div class="category-selector">
+                <button class="category-option" onclick="selectCat('petezah', this)">Petezah</button>
+                <button class="category-option" onclick="selectCat('science', this)">Science</button>
+                <button class="category-option" onclick="selectCat('flarelink', this)">Flarelink</button>
+                <button class="category-option" onclick="selectCat('pulsar', this)">Pulsar</button>
+                <button class="category-option" onclick="selectCat('frogie', this)">Frogie</button>
+                <button class="category-option" onclick="selectCat('sample', this)">Sample</button>
             </div>
 
             <button class="btn btn-primary" onclick="dispenseLink()" id="dispenseBtn">
@@ -543,18 +554,22 @@
                 </button>
             </div>
         </div>
+
+        <div class="footer">
+            Falaris's Stash v1.2
+        </div>
     </div>
 
     <script>
-        // Anti-scraping measures:
-        // 1. Links are encoded and only decoded when needed
-        // 2. Time-based verification
-        // 3. User interaction required
-        // 4. Links split into parts and assembled dynamically
-
         const subtitles = ['krithik my #1 opp', 'better than AFH\'s vault', 'gatekeep this fr', 'don\'t share with krithik', 'quick, close the tab!'];
-        let useBlank = false, currentLink = '', currentCategory = '', isCloaked = false;
-        const originalTitle = document.title, originalFavicon = document.querySelector('#favicon').href;
+        let useBlank = false;
+        let currentLink = '';
+        let currentCategory = '';
+        let isCloaked = false;
+        let exitConfirmEnabled = false;
+        let selectedCategory = '';
+        const originalTitle = document.title;
+        const originalFavicon = document.querySelector('#favicon').href;
         let initTime = Date.now();
 
         // Obfuscated link data - encoded in Base64 and split
@@ -604,9 +619,34 @@
             document.getElementById('subtitle').textContent = subtitles[Math.floor(Math.random() * subtitles.length)];
         }
 
+        function selectCat(category, button) {
+            document.querySelectorAll('.category-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+            selectedCategory = category;
+        }
+
         function toggleBlank() {
             useBlank = !useBlank;
             document.getElementById('blankToggle').classList.toggle('active');
+        }
+
+        function toggleExitConfirm() {
+            exitConfirmEnabled = !exitConfirmEnabled;
+            document.getElementById('exitConfirmToggle').classList.toggle('active');
+            
+            if (exitConfirmEnabled) {
+                window.addEventListener('beforeunload', handleBeforeUnload);
+            } else {
+                window.removeEventListener('beforeunload', handleBeforeUnload);
+            }
+        }
+
+        function handleBeforeUnload(e) {
+            e.preventDefault();
+            e.returnValue = 'Are you sure you want to leave? Your session will be lost.';
+            return e.returnValue;
         }
 
         function cloakTab() {
@@ -630,7 +670,7 @@
         }
 
         async function dispenseLink() {
-            const category = document.getElementById('categorySelect').value;
+            const category = selectedCategory;
             const btn = document.getElementById('dispenseBtn');
             
             if (!category) {
