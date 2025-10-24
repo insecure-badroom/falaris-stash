@@ -1,4 +1,6 @@
 - ***FALARIS STASH***
 - This repo is a bunch of different pr0xy links as a dispenser website.
-- This repo includes **exprint3r** as an option to attempt to freeze extensions.
+- This repo includes **Extprint3r** as an option to attempt to freeze extensions. Skidded from Blobby Boi (Sydney)
 - The two services in InsecureBadroom for this link dispenser is [Falaris's Stash](https://schoolwork7thgrade.vercel.app/falarisstash.html) and [Darrkon Launcher v4](https://schoolwork7thgrade.vercel.app/)
+- The latest version of of Falaris Stash will not auto-update,but be updated once in a while by [Skiddy Sydney](https://github.com/creatorcat70) from the index.html
+- An extremely skiddy and terribly developed site,but a clear rival to SkipSchool proxies and Interstellar.
